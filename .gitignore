@@ -1,0 +1,26 @@
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+*.swp
+
+# fish
+fish/fish_history
+fish/fish_read_history
+fish/fishd*

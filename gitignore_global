@@ -1,0 +1,36 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# Vim swap files#
+#################
+*.swp
+*.pyc
+*~
+
+# R related #
+#############
+*.Rbuildignore
+.Rproj.user
+.Rhistory
+
+.netrwhist
+
+# VENV #
+########
+.venv
+
+# IPython Notebook #
+####################
+.ipynb_checkpoints
+
+# Python 3.x #
+##############
+__pycache__
