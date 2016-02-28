@@ -35,3 +35,6 @@ venv
 # Python 3.x #
 ##############
 __pycache__
+
+# Meteor #
+.meteor

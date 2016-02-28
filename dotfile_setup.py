@@ -20,6 +20,7 @@ symlink_settings = '''\
 ~/.tmux.conf                    tmux.conf
 ~/.tern-config                  tern-config
 ~/.npmrc                        npmrc
+~/.eslintrc                     eslintrc
 '''
 
 
