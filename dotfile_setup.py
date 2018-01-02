@@ -21,6 +21,7 @@ symlink_settings = '''\
 ~/.tern-config                  tern-config
 ~/.npmrc                        npmrc
 ~/.eslintrc                     eslintrc
+~/.zshrc                        zshrc
 '''
 
 
@@ -36,6 +37,7 @@ def main():
         if not dest.parent.exists():
             dest.parent.mkdir(mode=0o755, parents=True)
         dest.symlink_to(src)
+
 
 if __name__ == '__main__':
     main()
