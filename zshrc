@@ -42,7 +42,7 @@ fi
 # }}}
 
 # {{{ zplug
-source ~/.zplug/init.zsh
+source /usr/local/opt/zplug/init.zsh
 
 zplug "bhilburn/powerlevel9k", as:theme
 # zplug "changyuheng/fz", defer:1
@@ -148,10 +148,6 @@ export JAVA_HOME=/usr/lib/jvm/java-7-oracle
 export JRE_HOME=/usr/lib/jvm/java-7-oracle/jre
 
 alias tmux="env TERM=xterm-256color tmux"
-
-export PATH="/home/zachary/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
 
 export PATH="/home/zachary/.local/bin:$PATH"
 export EDITOR=vim
