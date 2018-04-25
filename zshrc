@@ -1,36 +1,107 @@
-# {{{ Powerlevel9k
-POWERLEVEL9K_MODE='nerdfont-fontconfig'
+POWERLEVEL9K_MODE='nerdfont-complete'
 
-# Disable dir/git icons
-POWERLEVEL9K_HOME_ICON=''
-POWERLEVEL9K_HOME_SUB_ICON=''
-POWERLEVEL9K_FOLDER_ICON=''
+# Please only use this battery segment if you have material icons in your nerd font (or font)
+# Otherwise, use the font awesome one in "User Segments"
+prompt_zsh_battery_level() {
+  local percentage1=`pmset -g ps  |  sed -n 's/.*[[:blank:]]+*\(.*%\).*/\1/p'`
+  local percentage=`echo "${percentage1//\%}"`
+  local color='%F{red}'
+  local symbol="\uf00d"
+  pmset -g ps | grep "discharging" > /dev/null
+  if [ $? -eq 0 ]; then
+    local charging="false";
+  else
+    local charging="true";
+  fi
+  if [ $percentage -le 20 ]
+  then symbol='\uf579' ; color='%F{red}' ;
+    #10%
+  elif [ $percentage -gt 19 ] && [ $percentage -le 30 ]
+  then symbol="\uf57a" ; color='%F{red}' ;
+    #20%
+  elif [ $percentage -gt 29 ] && [ $percentage -le 40 ]
+  then symbol="\uf57b" ; color='%F{yellow}' ;
+    #35%
+  elif [ $percentage -gt 39 ] && [ $percentage -le 50 ]
+  then symbol="\uf57c" ; color='%F{yellow}' ;
+    #45%
+  elif [ $percentage -gt 49 ] && [ $percentage -le 60 ]
+  then symbol="\uf57d" ; color='%F{blue}' ;
+    #55%
+  elif [ $percentage -gt 59 ] && [ $percentage -le 70 ]
+  then symbol="\uf57e" ; color='%F{blue}' ;
+    #65%
+  elif [ $percentage -gt 69 ] && [ $percentage -le 80 ]
+  then symbol="\uf57f" ; color='%F{blue}' ;
+    #75%
+  elif [ $percentage -gt 79 ] && [ $percentage -le 90 ]
+  then symbol="\uf580" ; color='%F{blue}' ;
+    #85%
+  elif [ $percentage -gt 89 ] && [ $percentage -le 99 ]
+  then symbol="\uf581" ; color='%F{blue}' ;
+    #85%
+  elif [ $percentage -gt 98 ]
+  then symbol="\uf578" ; color='%F{green}' ;
+    #100%
+  fi
+  if [ $charging = "true" ];
+  then color='%F{green}'; if [ $percentage -gt 98 ]; then symbol='\uf584'; fi
+  fi
+  echo -n "%{$color%}$symbol" ;
+}
 
-DISABLE_AUTO_TITLE="true"
+zsh_internet_signal(){
+  local color
+  local symbol="\uf7ba"
+  if ifconfig en0 | grep inactive &> /dev/null; then
+  color="%F{red}"
+  else
+  color="%F{blue}"
+  fi
+  echo -n "%{$color%}$symbol "
+}
 
+# {{{ PowerLevel9k
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-
-POWERLEVEL9K_VCS_GIT_ICON=''
-POWERLEVEL9K_VCS_STAGED_ICON='\u00b1'
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
+POWERLEVEL9K_SHORTEN_STRATEGY="truncate_beginning"
+POWERLEVEL9K_RVM_BACKGROUND="black"
+POWERLEVEL9K_RVM_FOREGROUND="249"
+POWERLEVEL9K_RVM_VISUAL_IDENTIFIER_COLOR="red"
+POWERLEVEL9K_TIME_BACKGROUND="black"
+POWERLEVEL9K_TIME_FOREGROUND="249"
+POWERLEVEL9K_TIME_FORMAT="\UF43A %D{%I:%M  \UF133  %m.%d.%y}"
+POWERLEVEL9K_RVM_BACKGROUND="black"
+POWERLEVEL9K_RVM_FOREGROUND="249"
+POWERLEVEL9K_RVM_VISUAL_IDENTIFIER_COLOR="red"
+POWERLEVEL9K_STATUS_VERBOSE=false
+POWERLEVEL9K_VCS_CLEAN_FOREGROUND='black'
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND='green'
+POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='black'
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
+POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='white'
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='black'
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='black'
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='blue'
+POWERLEVEL9K_FOLDER_ICON=''
+POWERLEVEL9K_STATUS_OK_IN_NON_VERBOSE=true
+POWERLEVEL9K_STATUS_VERBOSE=false
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
 POWERLEVEL9K_VCS_UNTRACKED_ICON='\u25CF'
 POWERLEVEL9K_VCS_UNSTAGED_ICON='\u00b1'
 POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON='\u2193'
 POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON='\u2191'
-
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='yellow'
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
-#POWERLEVEL9K_VCS_UNTRACKED_ICON='?'
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context dir vcs status)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs virtualenv time)
-
-# POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
-
-POWERLEVEL9K_TIME_FORMAT="%D{%H:%M \uE868  %d.%m.%y}"
-
-POWERLEVEL9K_STATUS_VERBOSE=false
-export DEFAULT_USER="$USER"
+POWERLEVEL9K_VCS_COMMIT_ICON="\uf417"
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%F{blue}\u256D\u2500%f"
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{blue}\u2570\uf460%f "
+POWERLEVEL9K_CUSTOM_BATTERY_STATUS="prompt_zsh_battery_level"
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context os_icon custom_internet_signal custom_battery_status_joined ssh root_indicator dir dir_writable vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(command_execution_time  status  time)
+HIST_STAMPS="mm/dd/yyyy"
+DISABLE_UPDATE_PROMPT=true
+# }}}
 
 # enable the color support of ls {{{
 if [ -x /usr/bin/dircolors ]; then
@@ -85,54 +156,6 @@ zplug load
 # }}}
 
 
-# autosuggestions {{{
-# this has to be done after the plugin being loaded
-ZSH_AUTOSUGGEST_CLEAR_WIDGETS=(
-    beginning-of-line
-    backward-delete-char
-    backward-delete-word
-    backward-kill-word
-    history-search-forward
-    history-search-backward
-    history-beginning-search-forward
-    history-beginning-search-backward
-    history-substring-search-up
-    history-substring-search-down
-    up-line-or-history
-    down-line-or-history
-    accept-line
-)
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=black,bold,underline'
-# }}}
-
-
-# fzf {{{
-fzf_default_opts() {
-    local base03="234"
-    local base02="235"
-    local base01="240"
-    local base00="241"
-    local base0="244"
-    local base1="245"
-    local base2="254"
-    local base3="230"
-    local yellow="136"
-    local orange="166"
-    local red="160"
-    local magenta="125"
-    local violet="61"
-    local blue="33"
-    local cyan="37"
-    local green="64"
-    ## Solarized Light color scheme for fzf
-    export FZF_DEFAULT_OPTS="
-    --color fg:-1,bg:-1,hl:$blue,fg+:$base02,bg+:$base2,hl+:$blue
-    --color info:$yellow,prompt:$yellow,pointer:$base03,marker:$base03,spinner:$yellow
-    --height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind 'shift-tab:up,tab:down'
-    "
-}
-fzf_default_opts && unset fzf_default_opts
-
 # Enable fzf
 if [ -f ~/.fzf.zsh ]; then
     source ~/.fzf.zsh
@@ -141,13 +164,20 @@ fi
 
 # fast-syntax-highlighting {{{
 FAST_HIGHLIGHT_STYLES[variable]="fg=blue"
+FAST_HIGHLIGHT_STYLES[path]="fg=white"
 zle_highlight+=(paste:none)
 # }}}
 
-export JAVA_HOME=/usr/lib/jvm/java-7-oracle
-export JRE_HOME=/usr/lib/jvm/java-7-oracle/jre
-
-alias tmux="env TERM=xterm-256color tmux"
-
-export PATH="/home/zachary/.local/bin:$PATH"
+# Python Local bin
+export PATH=$PATH:~/Library/Python/3.6/bin
 export EDITOR=vim
+
+# ~/.dircolors/themefile
+eval $(gdircolors ~/.dircolors/dircolors.256dark)
+
+# Aliases
+alias ls='gls --color=auto'
+alias ll='ls -al'
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
