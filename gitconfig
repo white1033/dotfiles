@@ -1,7 +1,15 @@
 [user]
 	name = Zachary Lee
-	email = zachary_lee@trend.com.tw
+	email = zachary_lee@trendmicro.com
+	signingkey = zachary_lee@trendmicro.com
 [core]
 	excludesfile = ~/.gitignore_global
 [push]
 	default = matching
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[hub]
+	host = github.trendmicro.com

@@ -18,9 +18,6 @@ symlink_settings = '''\
 ~/.gitconfig                    gitconfig
 ~/.gitignore_global             gitignore_global
 ~/.tmux.conf                    tmux.conf
-~/.tern-config                  tern-config
-~/.npmrc                        npmrc
-~/.eslintrc                     eslintrc
 ~/.zshrc                        zshrc
 '''
 
