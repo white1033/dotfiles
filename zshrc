@@ -1,107 +1,134 @@
-POWERLEVEL9K_MODE='nerdfont-complete'
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-# Please only use this battery segment if you have material icons in your nerd font (or font)
-# Otherwise, use the font awesome one in "User Segments"
-prompt_zsh_battery_level() {
-  local percentage1=`pmset -g ps  |  sed -n 's/.*[[:blank:]]+*\(.*%\).*/\1/p'`
-  local percentage=`echo "${percentage1//\%}"`
-  local color='%F{red}'
-  local symbol="\uf00d"
-  pmset -g ps | grep "discharging" > /dev/null
-  if [ $? -eq 0 ]; then
-    local charging="false";
-  else
-    local charging="true";
-  fi
-  if [ $percentage -le 20 ]
-  then symbol='\uf579' ; color='%F{red}' ;
-    #10%
-  elif [ $percentage -gt 19 ] && [ $percentage -le 30 ]
-  then symbol="\uf57a" ; color='%F{red}' ;
-    #20%
-  elif [ $percentage -gt 29 ] && [ $percentage -le 40 ]
-  then symbol="\uf57b" ; color='%F{yellow}' ;
-    #35%
-  elif [ $percentage -gt 39 ] && [ $percentage -le 50 ]
-  then symbol="\uf57c" ; color='%F{yellow}' ;
-    #45%
-  elif [ $percentage -gt 49 ] && [ $percentage -le 60 ]
-  then symbol="\uf57d" ; color='%F{blue}' ;
-    #55%
-  elif [ $percentage -gt 59 ] && [ $percentage -le 70 ]
-  then symbol="\uf57e" ; color='%F{blue}' ;
-    #65%
-  elif [ $percentage -gt 69 ] && [ $percentage -le 80 ]
-  then symbol="\uf57f" ; color='%F{blue}' ;
-    #75%
-  elif [ $percentage -gt 79 ] && [ $percentage -le 90 ]
-  then symbol="\uf580" ; color='%F{blue}' ;
-    #85%
-  elif [ $percentage -gt 89 ] && [ $percentage -le 99 ]
-  then symbol="\uf581" ; color='%F{blue}' ;
-    #85%
-  elif [ $percentage -gt 98 ]
-  then symbol="\uf578" ; color='%F{green}' ;
-    #100%
-  fi
-  if [ $charging = "true" ];
-  then color='%F{green}'; if [ $percentage -gt 98 ]; then symbol='\uf584'; fi
-  fi
-  echo -n "%{$color%}$symbol" ;
-}
+# Start configuration added by Zim install {{{
+#
+# User configuration sourced by interactive shells
+#
 
-zsh_internet_signal(){
-  local color
-  local symbol="\uf7ba"
-  if ifconfig en0 | grep inactive &> /dev/null; then
-  color="%F{red}"
-  else
-  color="%F{blue}"
-  fi
-  echo -n "%{$color%}$symbol "
-}
+# -----------------
+# Zsh configuration
+# -----------------
 
-# {{{ PowerLevel9k
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
-POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_beginning"
-POWERLEVEL9K_RVM_BACKGROUND="black"
-POWERLEVEL9K_RVM_FOREGROUND="249"
-POWERLEVEL9K_RVM_VISUAL_IDENTIFIER_COLOR="red"
-POWERLEVEL9K_TIME_BACKGROUND="black"
-POWERLEVEL9K_TIME_FOREGROUND="249"
-POWERLEVEL9K_TIME_FORMAT="\UF43A %D{%I:%M  \UF133  %m.%d.%y}"
-POWERLEVEL9K_RVM_BACKGROUND="black"
-POWERLEVEL9K_RVM_FOREGROUND="249"
-POWERLEVEL9K_RVM_VISUAL_IDENTIFIER_COLOR="red"
-POWERLEVEL9K_STATUS_VERBOSE=false
-POWERLEVEL9K_VCS_CLEAN_FOREGROUND='black'
-POWERLEVEL9K_VCS_CLEAN_BACKGROUND='green'
-POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='black'
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
-POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='white'
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='black'
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='black'
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='blue'
-POWERLEVEL9K_FOLDER_ICON=''
-POWERLEVEL9K_STATUS_OK_IN_NON_VERBOSE=true
-POWERLEVEL9K_STATUS_VERBOSE=false
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
-POWERLEVEL9K_VCS_UNTRACKED_ICON='\u25CF'
-POWERLEVEL9K_VCS_UNSTAGED_ICON='\u00b1'
-POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON='\u2193'
-POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON='\u2191'
-POWERLEVEL9K_VCS_COMMIT_ICON="\uf417"
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%F{blue}\u256D\u2500%f"
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{blue}\u2570\uf460%f "
-POWERLEVEL9K_CUSTOM_BATTERY_STATUS="prompt_zsh_battery_level"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context os_icon custom_internet_signal custom_battery_status_joined ssh root_indicator dir dir_writable vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(command_execution_time  status  time)
-HIST_STAMPS="mm/dd/yyyy"
-DISABLE_UPDATE_PROMPT=true
-# }}}
+#
+# History
+#
+
+# Remove older command from the history if a duplicate is to be added.
+setopt HIST_IGNORE_ALL_DUPS
+
+#
+# Input/output
+#
+
+# Set editor default keymap to emacs (`-e`) or vi (`-v`)
+bindkey -e
+
+# Prompt for spelling correction of commands.
+#setopt CORRECT
+
+# Customize spelling correction prompt.
+#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+
+# Remove path separator from WORDCHARS.
+WORDCHARS=${WORDCHARS//[\/]}
+
+
+# --------------------
+# Module configuration
+# --------------------
+
+#
+# completion
+#
+
+# Set a custom path for the completion dump file.
+# If none is provided, the default ${ZDOTDIR:-${HOME}}/.zcompdump is used.
+#zstyle ':zim:completion' dumpfile "${ZDOTDIR:-${HOME}}/.zcompdump-${ZSH_VERSION}"
+
+#
+# git
+#
+
+# Set a custom prefix for the generated aliases. The default prefix is 'G'.
+#zstyle ':zim:git' aliases-prefix 'g'
+
+#
+# input
+#
+
+# Append `../` to your input for each `.` you type after an initial `..`
+#zstyle ':zim:input' double-dot-expand yes
+
+#
+# termtitle
+#
+
+# Set a custom terminal title format using prompt expansion escape sequences.
+# See http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Simple-Prompt-Escapes
+# If none is provided, the default '%n@%m: %~' is used.
+#zstyle ':zim:termtitle' format '%1~'
+
+#
+# zsh-autosuggestions
+#
+
+# Customize the style that the suggestions are shown with.
+# See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
+#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
+
+#
+# zsh-syntax-highlighting
+#
+
+# Set what highlighters will be used.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+# Customize the main highlighter styles.
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md#how-to-tweak-it
+#typeset -A ZSH_HIGHLIGHT_STYLES
+#ZSH_HIGHLIGHT_STYLES[comment]='fg=10'
+
+# ------------------
+# Initialize modules
+# ------------------
+
+if [[ ${ZIM_HOME}/init.zsh -ot ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  # Update static initialization script if it's outdated, before sourcing it
+  source ${ZIM_HOME}/zimfw.zsh init -q
+fi
+source ${ZIM_HOME}/init.zsh
+
+# ------------------------------
+# Post-init module configuration
+# ------------------------------
+
+#
+# zsh-history-substring-search
+#
+
+# Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# Bind up and down keys
+zmodload -F zsh/terminfo +p:terminfo
+if [[ -n ${terminfo[kcuu1]} && -n ${terminfo[kcud1]} ]]; then
+  bindkey ${terminfo[kcuu1]} history-substring-search-up
+  bindkey ${terminfo[kcud1]} history-substring-search-down
+fi
+
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+# }}} End configuration added by Zim install
+
 
 # enable the color support of ls {{{
 if [ -x /usr/bin/dircolors ]; then
@@ -112,49 +139,6 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 # }}}
 
-# {{{ zplug
-source /usr/local/opt/zplug/init.zsh
-
-zplug "bhilburn/powerlevel9k", as:theme
-# zplug "changyuheng/fz", defer:1
-# zplug "changyuheng/zsh-interactive-cd"
-# zplug "rupa/z", use:z.sh
-# zplug "supercrabtree/k"
-# zplug "Tarrasch/zsh-bd"
-zplug "zdharma/fast-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-completions"
-
-# Enable all oh-my-zsh's features
-zplug "lib/bzr", from:oh-my-zsh
-zplug "lib/clipboard", from:oh-my-zsh
-zplug "lib/compfix", from:oh-my-zsh
-zplug "lib/completion", from:oh-my-zsh
-zplug "lib/correction", from:oh-my-zsh
-zplug "lib/functions", from:oh-my-zsh
-zplug "lib/history", from:oh-my-zsh
-zplug "lib/key-bindings", from:oh-my-zsh
-zplug "lib/nvm", from:oh-my-zsh
-zplug "lib/prompt_info_functions", from:oh-my-zsh
-zplug "lib/spectrum", from:oh-my-zsh
-zplug "lib/termsupport", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/docker-compose", from:oh-my-zsh
-zplug "plugins/gpg-agent", from:oh-my-zsh
-zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/pyenv", from:oh-my-zsh
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-# Then, source plugins and add commands to $PATH
-zplug load
-# }}}
-
 
 # Enable fzf
 if [ -f ~/.fzf.zsh ]; then
@@ -162,18 +146,13 @@ if [ -f ~/.fzf.zsh ]; then
 fi
 # }}}
 
-# fast-syntax-highlighting {{{
-FAST_HIGHLIGHT_STYLES[variable]="fg=blue"
-FAST_HIGHLIGHT_STYLES[path]="fg=white"
-zle_highlight+=(paste:none)
-# }}}
 
 # Python Local bin
-export PATH=$PATH:~/Library/Python/3.6/bin
+export PATH=$PATH:~/Library/Python/3.6/bin:~/.poetry/bin
 export EDITOR=vim
 
 # ~/.dircolors/themefile
-eval $(gdircolors ~/.dircolors/dircolors.256dark)
+eval $(gdircolors ~/.dircolors/dircolors.nord)
 
 # Aliases
 alias ls='gls --color=auto'
@@ -181,3 +160,11 @@ alias ll='ls -al'
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+
+# spark setting
+export SPARK_HOME=/Users/zachary_lee/projects/spark-2.2.1-bin-hadoop2.7
+export PATH=$PATH:$SPARK_HOME/bin
+export JAVA_HOME=/Library/Java/Home
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
