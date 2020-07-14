@@ -19,6 +19,7 @@ symlink_settings = '''\
 ~/.gitignore_global             gitignore_global
 ~/.tmux.conf                    tmux.conf
 ~/.zshrc                        zshrc
+~/.zimrc                        zimrc
 '''
 
 
