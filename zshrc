@@ -148,22 +148,19 @@ fi
 
 
 # Python Local bin
-export PATH=$PATH:~/Library/Python/3.6/bin:~/.poetry/bin
 export EDITOR=vim
 
 # ~/.dircolors/themefile
-eval $(gdircolors ~/.dircolors/dircolors.nord)
+eval $(gdircolors ~/.dir_colors)
 
 # Aliases
-alias ls='gls --color=auto'
+alias ls='gls --quoting-style=literal --color=auto'
 alias ll='ls -al'
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # spark setting
-export SPARK_HOME=/Users/zachary_lee/projects/spark-2.2.1-bin-hadoop2.7
-export PATH=$PATH:$SPARK_HOME/bin
 export JAVA_HOME=/Library/Java/Home
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
