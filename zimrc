@@ -41,7 +41,7 @@ zmodule zsh-users/zsh-history-substring-search
 zmodule romkatv/powerlevel10k
 #
 # git support
-zmodule ohmyzsh/ohmyzsh -f 'plugins/git' -s 'plugins/git/git.plugin.zsh' -f 'lib' -s 'lib/git.zsh'
-# fzf support
-zmodule ohmyzsh/ohmyzsh -f 'plugins/fzf' -s 'plugins/fzf/fzf.plugin.zsh'
+zmodule ohmyzsh/ohmyzsh -f 'plugins/git' -s 'plugins/git/git.plugin.zsh' \
+                        -f 'lib' -s 'lib/git.zsh' \
+                        -f 'plugins/fzf' -s 'plugins/fzf/fzf.plugin.zsh'
 # }}} End configuration added by Zim install
