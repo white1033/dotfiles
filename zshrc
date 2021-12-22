@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Start configuration added by Zim install {{{
 #
 # User configuration sourced by interactive shells
@@ -148,7 +141,18 @@ fi
 
 
 # Python Local bin
-export EDITOR=vim
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+
+# Load pyenv into the shell by adding
+# the following to ~/.zshrc:
+
+eval "$(pyenv init -)"
+export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
+export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
+
+export EDITOR=nvim
 
 # ~/.dircolors/themefile
 eval $(gdircolors ~/.dir_colors)
@@ -161,7 +165,11 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # spark setting
-export JAVA_HOME=/Library/Java/Home
+# export JAVA_HOME=`/usr/libexec/java_home`
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# kube completion
+autoload -Uz compinit
+source <(kubectl completion zsh)
+
+eval "$(starship init zsh)"
