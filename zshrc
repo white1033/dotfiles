@@ -1,128 +1,75 @@
-# Start configuration added by Zim install {{{
-#
-# User configuration sourced by interactive shells
-#
+# load zgenom
+source "${HOME}/.zgenom/zgenom.zsh"
 
-# -----------------
-# Zsh configuration
-# -----------------
+# Check for plugin and zgenom updates every 7 days
+# This does not increase the startup time.
+zgenom autoupdate
 
-#
-# History
-#
+# if the init script doesn't exist
+if ! zgenom saved; then
+    echo "Creating a zgenom save"
 
-# Remove older command from the history if a duplicate is to be added.
-setopt HIST_IGNORE_ALL_DUPS
+    # Ohmyzsh base library
+    zgenom ohmyzsh
 
-#
-# Input/output
-#
+    # You can also cherry pick just parts of the base library.
+    # Not loading the base set of ohmyzsh libraries might lead to issues.
+    # While you can do it, I won't recommend it unless you know how to fix
+    # those issues yourself.
 
-# Set editor default keymap to emacs (`-e`) or vi (`-v`)
-bindkey -e
+    # Remove `zgenom ohmyzsh` and load parts of ohmyzsh like this:
+    # `zgenom ohmyzsh path/to/file.zsh`
+    # zgenom ohmyzsh lib/git.zsh # load git library of ohmyzsh
 
-# Prompt for spelling correction of commands.
-#setopt CORRECT
+    # plugins
+    zgenom ohmyzsh plugins/git
+    zgenom ohmyzsh plugins/sudo
+    zgenom ohmyzsh plugins/fzf
+    zgenom ohmyzsh plugins/rust
+    # just load the completions
+    zgenom ohmyzsh --completion plugins/docker-compose
 
-# Customize spelling correction prompt.
-#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+    # Install ohmyzsh osx plugin if on macOS
+    [[ "$(uname -s)" = Darwin ]] && zgenom ohmyzsh plugins/macos
 
-# Remove path separator from WORDCHARS.
-WORDCHARS=${WORDCHARS//[\/]}
+    # prezto options
+    zgenom prezto editor key-bindings 'emacs'
 
+    # prezto and modules
+    # If you use prezto and ohmyzsh - load ohmyzsh first.
+    zgenom prezto
+    zgenom prezto command-not-found
 
-# --------------------
-# Module configuration
-# --------------------
+    # Load prezto tmux when tmux is installed
+    if hash tmux &>/dev/null; then
+        zgenom prezto tmux
+    fi
 
-#
-# completion
-#
+    zgenom load zdharma-continuum/fast-syntax-highlighting
+    zgenom load zsh-users/zsh-autosuggestions
+    zgenom load zsh-users/zsh-history-substring-search
+EOPLUGINS
+    # ^ can't indent this EOPLUGINS
 
-# Set a custom path for the completion dump file.
-# If none is provided, the default ${ZDOTDIR:-${HOME}}/.zcompdump is used.
-#zstyle ':zim:completion' dumpfile "${ZDOTDIR:-${HOME}}/.zcompdump-${ZSH_VERSION}"
+    # add binaries
+    zgenom bin tj/git-extras
 
-#
-# git
-#
+    # completions
+    zgenom load zsh-users/zsh-completions
 
-# Set a custom prefix for the generated aliases. The default prefix is 'G'.
-#zstyle ':zim:git' aliases-prefix 'g'
+    # save all to init script
+    zgenom save
 
-#
-# input
-#
+    # Compile your zsh files
+    zgenom compile "$HOME/.zshrc"
+    zgenom compile $ZDOTDIR
 
-# Append `../` to your input for each `.` you type after an initial `..`
-#zstyle ':zim:input' double-dot-expand yes
+    # You can perform other "time consuming" maintenance tasks here as well.
+    # If you use `zgenom autoupdate` you're making sure it gets
+    # executed every 7 days.
 
-#
-# termtitle
-#
-
-# Set a custom terminal title format using prompt expansion escape sequences.
-# See http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Simple-Prompt-Escapes
-# If none is provided, the default '%n@%m: %~' is used.
-#zstyle ':zim:termtitle' format '%1~'
-
-#
-# zsh-autosuggestions
-#
-
-# Customize the style that the suggestions are shown with.
-# See https://github.com/zsh-users/zsh-autosuggestions/blob/master/README.md#suggestion-highlight-style
-#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
-
-#
-# zsh-syntax-highlighting
-#
-
-# Set what highlighters will be used.
-# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-
-# Customize the main highlighter styles.
-# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md#how-to-tweak-it
-#typeset -A ZSH_HIGHLIGHT_STYLES
-#ZSH_HIGHLIGHT_STYLES[comment]='fg=10'
-
-# ------------------
-# Initialize modules
-# ------------------
-
-if [[ ${ZIM_HOME}/init.zsh -ot ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
-  # Update static initialization script if it's outdated, before sourcing it
-  source ${ZIM_HOME}/zimfw.zsh init -q
+    # rbenv rehash
 fi
-source ${ZIM_HOME}/init.zsh
-
-# ------------------------------
-# Post-init module configuration
-# ------------------------------
-
-#
-# zsh-history-substring-search
-#
-
-# Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
-# Bind up and down keys
-zmodload -F zsh/terminfo +p:terminfo
-if [[ -n ${terminfo[kcuu1]} && -n ${terminfo[kcud1]} ]]; then
-  bindkey ${terminfo[kcuu1]} history-substring-search-up
-  bindkey ${terminfo[kcud1]} history-substring-search-down
-fi
-
-bindkey '^P' history-substring-search-up
-bindkey '^N' history-substring-search-down
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-# }}} End configuration added by Zim install
-
-
 # enable the color support of ls {{{
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors \
@@ -167,9 +114,5 @@ export LANG=en_US.UTF-8
 # spark setting
 # export JAVA_HOME=`/usr/libexec/java_home`
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home"
-
-# kube completion
-autoload -Uz compinit
-source <(kubectl completion zsh)
 
 eval "$(starship init zsh)"
