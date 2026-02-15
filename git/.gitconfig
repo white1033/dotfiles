@@ -1,7 +1,5 @@
-[user]
-		name = Zachary Lee
-		email = zachary_lee@trendmicro.com
-		signingkey = zachary_lee@trendmicro.com
+[include]
+    path = ~/.gitconfig.local
 [column]
         ui = auto
 [branch]
@@ -34,7 +32,7 @@
         enabled = true
         autoupdate = true
 [core]
-        excludesfile = ~/.gitignore
+        excludesfile = ~/.gitignore_global
 	pager = delta
 [rebase]
         autoSquash = true
@@ -45,19 +43,11 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
-[hub]
-	host = github.trendmicro.com
 [credential "https://github.com"]
-	helper = 
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
-[credential "https://github.trendmicro.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
-[credential "https://adc.github.trendmicro.com"]
-	helper = 
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [interactive]
 	diffFilter = delta --color-only

@@ -1,0 +1,14 @@
+# Copy this file to ~/.gitconfig.local and fill in your personal info
+# cp ~/.gitconfig.local.example ~/.gitconfig.local
+
+[user]
+    name = Your Name
+    email = your@email.com
+    signingkey = your@email.com
+
+[hub]
+    host = your-company-github.com
+
+[credential "https://your-company-github.com"]
+    helper =
+    helper = !/opt/homebrew/bin/gh auth git-credential
