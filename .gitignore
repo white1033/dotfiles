@@ -1,26 +1,18 @@
-*.py[cod]
+# Personal/sensitive config (not tracked)
+.gitconfig.local
 
-# C extensions
-*.so
+# Lazygit runtime state (contains recent repo paths)
+lazygit/.config/lazygit/state.yml
 
-# Packages
-*.egg
-*.egg-info
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
-lib
-lib64
+# Karabiner auto-generated backups
+karabiner/.config/karabiner/automatic_backups/
 
+# Yazi backup files
+yazi/.config/yazi/*.toml-*
+
+# OS
+.DS_Store
+
+# Editor
 *.swp
-
-# fish
-fish/fish_history
-fish/fish_read_history
-fish/fishd*
+*~
