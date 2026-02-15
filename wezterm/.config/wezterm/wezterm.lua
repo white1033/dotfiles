@@ -68,7 +68,7 @@ config.use_dead_keys = false
 config.enable_kitty_keyboard = true
 
 -- Performance
-config.front_end = 'OpenGL'
+config.front_end = 'WebGpu'
 config.webgpu_power_preference = 'HighPerformance'
 config.max_fps = 60
 config.animation_fps = 60
