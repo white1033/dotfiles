@@ -1,4 +1,4 @@
-# Open WezTerm and Edge with shortcuts
+# Open WezTerm and Arc with shortcuts
 alt - w : open -a WezTerm
 alt - a : open -a Arc
 

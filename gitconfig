@@ -1,23 +1,45 @@
 [user]
-	name = Zachary Lee
-	email = zachary_lee@trendmicro.com
-	signingkey = zachary_lee@trendmicro.com
-[core]
-	excludesfile = ~/.gitignore_global
-  pager = delta
-[interactive]
-    diffFilter = delta --color-only
-[add.interactive]
-    useBuiltin = false # required for git 2.37.0
-[delta]
-    navigate = true    # use n and N to move between diff sections
-    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
-[merge]
-    conflictstyle = diff3
+		name = Zachary Lee
+		email = zachary_lee@trendmicro.com
+		signingkey = zachary_lee@trendmicro.com
+[column]
+        ui = auto
+[branch]
+        sort = -committerdate
+[tag]
+        sort = version:refname
+[init]
+        defaultBranch = main
 [diff]
-  colorMoved = default
+        algorithm = histogram
+        colorMoved = plain
+        mnemonicPrefix = true
+        renames = true
 [push]
-	default = simple
+        default = simple
+        autoSetupRemote = true
+        followTags = true
+[fetch]
+        prune = true
+        pruneTags = true
+        all = true
+
+# why the hell not?
+
+[help]
+        autocorrect = prompt
+[commit]
+        verbose = true
+[rerere]
+        enabled = true
+        autoupdate = true
+[core]
+        excludesfile = ~/.gitignore
+	pager = delta
+[rebase]
+        autoSquash = true
+        autoStash = true
+        updateRefs = true
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
@@ -25,5 +47,27 @@
 	smudge = git-lfs smudge -- %f
 [hub]
 	host = github.trendmicro.com
-[pull]
-	rebase = false
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://github.trendmicro.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://adc.github.trendmicro.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	pager = less --mouse --wheel-lines=3 -R -F -X
+	line-numbers = true
+	side-by-side = true
+	line-fill-method = spaces
+	syntax-theme = Coldark-Dark
+	file-style = omit
+	file-decoration-style = omit
+	hunk-header-style = file line-number syntax
