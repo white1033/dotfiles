@@ -42,10 +42,6 @@ if ! zgenom saved; then
     zgenom prezto
     zgenom prezto command-not-found
 
-    # Load prezto tmux when tmux is installed
-    if hash tmux &>/dev/null; then
-        zgenom prezto tmux
-    fi
 
     zgenom load zdharma-continuum/fast-syntax-highlighting
     zgenom load zsh-users/zsh-autosuggestions
@@ -159,9 +155,6 @@ eval "$(jenv init -)"
 # pipx
 eval "$(register-python-argcomplete pipx)"
 
-# tmsts
-export PATH="/Users/zachary_lee/projects/tmsts/bin:$PATH"
-
 # rye
 source "$HOME/.rye/env"
 
@@ -174,5 +167,3 @@ fpath+=~/.zfunc
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 autoload -U compinit && compinit
 
-# Added by Windsurf
-export PATH="/Users/zachary_lee/.codeium/windsurf/bin:$PATH"
