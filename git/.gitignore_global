@@ -9,29 +9,38 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
-# Vim swap files#
-#################
+# Editor swap/temp files #
+###########################
 *.swp
-*.pyc
 *~
+.netrwhist
+
+# IDE / Editor config #
+########################
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Environment / Secrets #
+##########################
+.env
+.env.*
+
+# Node #
+########
+node_modules/
+
+# Python #
+##########
+*.pyc
+__pycache__
+.venv
+venv
+.ipynb_checkpoints
 
 # R related #
 #############
 *.Rbuildignore
 .Rproj.user
 .Rhistory
-
-.netrwhist
-
-# VENV #
-########
-.venv
-venv
-
-# IPython Notebook #
-####################
-.ipynb_checkpoints
-
-# Python 3.x #
-##############
-__pycache__
