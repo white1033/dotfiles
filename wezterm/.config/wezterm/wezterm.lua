@@ -74,6 +74,31 @@ config.max_fps = 60
 config.animation_fps = 60
 config.enable_scroll_bar = false
 
+-- Tab title with unseen output indicator
+wezterm.on('format-tab-title', function(tab)
+  local title = tab.active_pane.title
+  if #title > 24 then
+    title = title:sub(1, 23) .. '…'
+  end
+
+  local unseen = 0
+  for _, p in ipairs(tab.panes) do
+    if p.has_unseen_output then
+      unseen = unseen + 1
+    end
+  end
+
+  -- Nerd Font circled number icons (①-⑨) for unseen count
+  local unseen_icons = { '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨' }
+  local suffix = ''
+  if unseen > 0 then
+    local icon = unseen <= 9 and unseen_icons[unseen] or '⑨⁺'
+    suffix = ' ' .. icon
+  end
+
+  return (tab.tab_index + 1) .. ': ' .. title .. suffix
+end)
+
 -- Key bindings
 config.keys = {
   { key = 'r', mods = 'CMD', action = wezterm.action.ClearScrollback('ScrollbackAndViewport') },
@@ -101,9 +126,20 @@ config.keys = {
   { key = 's', mods = 'CMD|SHIFT', action = wezterm.action.QuickSelect },
   { key = 'o', mods = 'CMD|SHIFT', action = wezterm.action.QuickSelectArgs {
     label = 'open url',
-    patterns = { 'https?://\\S+' },
+    patterns = {
+      -- bare URLs
+      'https?://\\S+',
+      -- markdown [text](url)
+      '\\(https?://\\S+\\)',
+      -- URLs inside brackets/braces/angles
+      '\\[https?://\\S+\\]',
+      '\\{https?://\\S+\\}',
+      '<https?://\\S+>',
+    },
     action = wezterm.action_callback(function(window, pane)
       local url = window:get_selection_text_for_pane(pane)
+      -- strip surrounding delimiters and trailing punctuation
+      url = url:gsub('^[%(%[%{<]+', ''):gsub('[%)%]%}>]+$', ''):gsub('[.,;:!?]+$', '')
       wezterm.open_with(url)
     end),
   }},
