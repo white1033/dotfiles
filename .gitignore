@@ -1,5 +1,6 @@
 # Personal/sensitive config (not tracked)
 .gitconfig.local
+.zshrc.local
 
 # Lazygit runtime state (contains recent repo paths)
 lazygit/.config/lazygit/state.yml
