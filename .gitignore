@@ -5,7 +5,8 @@
 # Lazygit runtime state (contains recent repo paths)
 lazygit/.config/lazygit/state.yml
 
-# Karabiner auto-generated backups
+# Karabiner auto-generated files (only track assets/complex_modifications/)
+karabiner/.config/karabiner/karabiner.json
 karabiner/.config/karabiner/automatic_backups/
 
 # Yazi backup files
