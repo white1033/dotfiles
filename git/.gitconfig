@@ -22,8 +22,10 @@
         pruneTags = true
         all = true
 
-# why the hell not?
-
+[merge]
+        conflictstyle = zdiff3
+[transfer]
+        fsckobjects = true
 [help]
         autocorrect = prompt
 [commit]
