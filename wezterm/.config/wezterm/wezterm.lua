@@ -36,6 +36,7 @@ config.show_new_tab_button_in_tab_bar = false
 config.tab_max_width = 32
 
 config.window_close_confirmation = 'NeverPrompt'
+config.adjust_window_size_when_changing_font_size = false
 
 config.default_cursor_style = 'BlinkingBar'
 config.cursor_thickness = '2px'
