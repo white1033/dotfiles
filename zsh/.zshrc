@@ -1,8 +1,6 @@
 # OPENSPEC:START
 # OpenSpec shell completions configuration
-fpath=("/Users/zachary_lee/.zsh/completions" $fpath)
-autoload -Uz compinit
-compinit
+fpath=("$HOME/.zsh/completions" $fpath)
 # OPENSPEC:END
 
 # Created by Zap installer
@@ -34,7 +32,7 @@ compinit -d "${ZDOTDIR:-$HOME}/.zcompdump"
 plug "Aloxaf/fzf-tab"
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/zachary_lee/.cache/lm-studio/bin"
+export PATH="$PATH:$HOME/.cache/lm-studio/bin"
 
 # yazi
 function y() {
@@ -58,12 +56,16 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 # Added by Antigravity
-export PATH="/Users/zachary_lee/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 # bun completions
-[ -s "/Users/zachary_lee/.bun/_bun" ] && source "/Users/zachary_lee/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
+export EDITOR=nvim
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Deduplicate PATH entries
+typeset -U path
 
