@@ -21,6 +21,7 @@
         prune = true
         pruneTags = true
         all = true
+        writeCommitGraph = true
 
 [merge]
         conflictstyle = zdiff3
@@ -36,6 +37,7 @@
 [core]
         excludesfile = ~/.gitignore_global
 	pager = delta
+        untrackedCache = true
 [rebase]
         autoSquash = true
         autoStash = true
