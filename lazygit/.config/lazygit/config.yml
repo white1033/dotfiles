@@ -1,0 +1,32 @@
+gui:
+  nerdFontsVersion: "3"
+  showBottomLine: false
+  border: rounded
+  theme:
+    activeBorderColor:
+      - "#8aadf4" # blue
+      - bold
+    inactiveBorderColor:
+      - "#a5adcb" # subtext0
+    searchingActiveBorderColor:
+      - "#eed49f" # yellow
+    optionsTextColor:
+      - "#8aadf4" # blue
+    selectedLineBgColor:
+      - "#363a4f" # surface0
+    cherryPickedCommitFgColor:
+      - "#8aadf4" # blue
+    cherryPickedCommitBgColor:
+      - "#494d64" # surface1
+    markedBaseCommitFgColor:
+      - "#eed49f" # yellow
+    markedBaseCommitBgColor:
+      - "#494d64" # surface1
+    unstagedChangesColor:
+      - "#ed8796" # red
+    defaultFgColor:
+      - "#cad3f5" # text
+
+git:
+  paging:
+    pager: delta --paging=never
