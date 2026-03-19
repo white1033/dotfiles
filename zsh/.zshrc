@@ -1,13 +1,14 @@
 # OPENSPEC:START
 # OpenSpec shell completions configuration
-fpath=("$HOME/.zsh/completions" $fpath)
+fpath=("/Users/zachary_lee/.zsh/completions" $fpath)
+autoload -Uz compinit
+compinit
 # OPENSPEC:END
 
 # Created by Zap installer
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 plug "zsh-users/zsh-autosuggestions"
 plug "zap-zsh/supercharge"
-plug "MAHcodes/distro-prompt"
 plug "wintermi/zsh-brew"
 plug "MichaelAquilina/zsh-you-should-use"
 plug "zap-zsh/exa"
@@ -87,4 +88,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Deduplicate PATH entries
 typeset -U path
+
+# Starship prompt
+eval "$(starship init zsh)"
 
