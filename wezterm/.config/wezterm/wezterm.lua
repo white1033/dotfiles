@@ -42,6 +42,10 @@ config.default_cursor_style = 'BlinkingBar'
 config.cursor_thickness = '2px'
 config.cursor_blink_rate = 0
 
+-- Bell: silence audio, use subtle visual fade instead
+config.audible_bell = 'Disabled'
+config.visual_bell = { fade_in_duration_ms = 75, fade_out_duration_ms = 75 }
+
 -- macOS Option key behavior
 config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = true
@@ -74,6 +78,33 @@ config.webgpu_power_preference = 'HighPerformance'
 config.max_fps = 60
 config.animation_fps = 60
 config.enable_scroll_bar = false
+config.status_update_interval = 1000
+
+-- Right status clock (fullscreen only)
+wezterm.on('update-right-status', function(window, _)
+  local dims = window:get_dimensions()
+  if not dims.is_full_screen then
+    window:set_right_status('')
+    return
+  end
+
+  local clock_icon = wezterm.nerdfonts.md_clock_time_four_outline
+    or wezterm.nerdfonts.md_clock_outline
+    or ''
+  local text = wezterm.strftime('%H:%M')
+
+  if clock_icon ~= '' then
+    window:set_right_status(wezterm.format({
+      { Foreground = { Color = '#6d6d6d' } },
+      { Text = ' ' .. clock_icon .. ' ' .. text .. ' ' },
+    }))
+  else
+    window:set_right_status(wezterm.format({
+      { Foreground = { Color = '#6d6d6d' } },
+      { Text = ' ' .. text .. ' ' },
+    }))
+  end
+end)
 
 -- Tab title with unseen output indicator
 wezterm.on('format-tab-title', function(tab)
