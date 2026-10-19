@@ -1,4 +1,5 @@
 # Taps
+tap "acsandmann/tap"
 tap "databricks/tap"
 tap "tw93/tap"
 
@@ -64,6 +65,7 @@ brew "librdkafka"
 brew "protobuf"
 
 # === Other ===
+brew "acsandmann/tap/rift"
 brew "cbonsai"
 brew "fastfetch"
 brew "ffmpeg"
@@ -90,7 +92,6 @@ cask "wezterm"
 cask "zed"
 
 # === Cask: System Tools ===
-cask "aerospace"
 cask "appcleaner"
 cask "clipy"
 cask "deskpad"
