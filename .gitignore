@@ -1,6 +1,13 @@
 # Personal/sensitive config (not tracked)
 .gitconfig.local
 .zshrc.local
+.env
+.env.*
+*.pem
+*.key
+
+# Claude Code local settings
+.claude/settings.local.json
 
 # Lazygit runtime state (contains recent repo paths)
 lazygit/.config/lazygit/state.yml
