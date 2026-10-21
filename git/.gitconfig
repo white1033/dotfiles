@@ -36,8 +36,10 @@
         autoupdate = true
 [core]
         excludesfile = ~/.gitignore_global
-	pager = delta
         untrackedCache = true
+        pager = delta
+[interactive]
+        diffFilter = delta --color-only
 [rebase]
         autoSquash = true
         autoStash = true
@@ -48,21 +50,18 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 [credential "https://github.com"]
-	helper =
+	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper =
+	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
-[interactive]
-	diffFilter = delta --color-only
 [delta]
 	navigate = true
 	dark = true
-	pager = less --mouse --wheel-lines=3 -R -F -X
-	line-numbers = true
-	side-by-side = true
-	line-fill-method = spaces
 	syntax-theme = Catppuccin Macchiato
-	file-style = omit
-	file-decoration-style = omit
-	hunk-header-style = file line-number syntax
+[credential "https://adc.github.trendmicro.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://github.trendmicro.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
