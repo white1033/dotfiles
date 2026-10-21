@@ -1,42 +1,50 @@
-# OPENSPEC:START
-# OpenSpec shell completions configuration
-fpath=("/Users/zachary_lee/.zsh/completions" $fpath)
-autoload -Uz compinit
-compinit
-# OPENSPEC:END
+typeset -U path
 
-# Created by Zap installer
-[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
-plug "zsh-users/zsh-autosuggestions"
-plug "zap-zsh/supercharge"
-plug "wintermi/zsh-brew"
-plug "MichaelAquilina/zsh-you-should-use"
-plug "zap-zsh/exa"
-plug "zap-zsh/fzf"
-plug "zsh-users/zsh-syntax-highlighting"  # 應該在最後
+# Cache the output of slow init commands; regenerate when the binary is newer than the cache
+_cached_eval() {
+  local name=$1 bin=$2; shift 2
+  local cache="$HOME/.cache/zsh/$name.zsh"
+  if [[ ! -s $cache || $bin -nt $cache ]]; then
+    "$bin" "$@" >| "$cache" 2>/dev/null
+  fi
+  source "$cache"
+}
 
-# Add Homebrew's site functions to fpath (minus git, because that causes conflicts)
+# Homebrew (must come first so all brew-installed tools are in PATH)
+_cached_eval brew-shellenv /opt/homebrew/bin/brew shellenv
+
+# fpath (all additions must come before compinit)
+fpath=("$HOME/.zsh/completions" $fpath)   # OPENSPEC
 fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
-
-# Add self completion
 fpath+=~/.zfunc
 
-# History
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt SHARE_HISTORY
+# compinit is handled by the zap-zsh/supercharge plugin (fpath must be set above)
 
 # Alias
 alias lg='lazygit'
 alias rm='safe-rm'
 
-# Load and initialise completion system
-autoload -Uz compinit
-compinit -d "${ZDOTDIR:-$HOME}/.zcompdump"
-
-# fzf-tab 必須在 compinit 之後
+# Zap plugins
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+plug "zsh-users/zsh-autosuggestions"
+plug "zap-zsh/supercharge"
+source <(fzf --zsh)
+# fzf-tab 必須在 compinit 之後，且在 syntax-highlighting 之前
 plug "Aloxaf/fzf-tab"
+# zsh-syntax-highlighting 必須放在最後
+plug "zsh-users/zsh-syntax-highlighting"
+
+# History (after supercharge, which sets its own values)
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt SHARE_HISTORY EXTENDED_HISTORY HIST_IGNORE_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS
+
+# eza (must come after supercharge, which sets ls='ls -G')
+alias ls='eza --group-directories-first --icons=auto'
+alias ll='ls -lh --git'
+alias la='ll -a'
+alias tree='ll --tree --level=2'
 
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
@@ -51,8 +59,7 @@ export FZF_DEFAULT_OPTS='
 '
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:$HOME/.cache/lm-studio/bin"
+export EDITOR=nvim
 
 # yazi
 function y() {
@@ -67,28 +74,30 @@ function y() {
 # zoxide
 eval "$(zoxide init zsh)"
 
-# Golang environment variables
-export GOROOT=/opt/homebrew/opt/go/libexec
+# PATH additions
 export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
+export BUN_INSTALL="$HOME/.bun"
+export PATH=$GOPATH/bin:$BUN_INSTALL/bin:$HOME/.antigravity/antigravity/bin:$HOME/.omlx/bin:$HOME/.local/bin:$PATH
+export PATH="$PATH:$HOME/.cache/lm-studio/bin"   # Added by LM Studio CLI (lms)
 
-# Source local secrets (API keys, tokens, etc.) — not tracked by git
+# Load environment variables from ~/.env
+if [ -f ~/.env ]; then
+  set -a
+  source ~/.env
+  set +a
+fi
+
+# Source local secrets last so they override values from ~/.env
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-
-# Added by Antigravity
-export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# bun
-export EDITOR=nvim
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Deduplicate PATH entries
-typeset -U path
-
 # Starship prompt
 eval "$(starship init zsh)"
 
+# oMP: Oh My Pi shell completion (cached)
+_cached_eval omp-completions "$(command -v omp)" completions zsh
+
+# Deduplicate PATH (export PATH=... string assignments bypass typeset -U, so re-assign the array last)
+path=($path)
