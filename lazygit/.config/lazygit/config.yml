@@ -30,7 +30,6 @@ gui:
       - "#ed8796" # red
     defaultFgColor:
       - "#cad3f5" # text
-
 git:
-  paging:
-    pager: delta --paging=never
+  diffRenderers:
+    - command: delta --paging=never

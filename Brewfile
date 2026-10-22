@@ -176,8 +176,6 @@ cask "slack"
 cask "snapzy"
 # Rime input method engine
 cask "squirrel-app"
-# Menu bar manager
-cask "thaw"
 # Tiny, fully native launcher, hotkeys, and clipboard history
 cask "abue-ammar/tinycast/tinycast", trusted: true
 # Open-source code editor
