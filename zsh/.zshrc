@@ -4,10 +4,19 @@ typeset -U path
 _cached_eval() {
   local name=$1 bin=$2; shift 2
   local cache="$HOME/.cache/zsh/$name.zsh"
+  # No binary (not installed yet) -> nothing to cache, nothing to source.
+  [[ -n $bin ]] || return 0
+  # ~/.cache/zsh does not exist on a fresh macOS account; without this the
+  # redirect below fails and `source` errors on every new shell.
+  mkdir -p "${cache:h}"
   if [[ ! -s $cache || $bin -nt $cache ]]; then
     "$bin" "$@" >| "$cache" 2>/dev/null
   fi
-  source "$cache"
+  if [[ -s $cache ]]; then
+    source "$cache"
+  else
+    eval "$("$bin" "$@")"   # cache unwritable: run the command directly
+  fi
 }
 
 # Homebrew (must come first so all brew-installed tools are in PATH)
