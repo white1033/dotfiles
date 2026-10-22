@@ -1,8 +1,6 @@
 tap "abue-ammar/tinycast", trusted: true
 tap "acsandmann/tap"
-tap "beutton/brew", trusted: true
 tap "databricks/tap", trusted: true
-tap "majd/repo", trusted: true
 # Code searching, linting, rewriting
 brew "ast-grep"
 # Avro command-line tools and utilities
@@ -158,8 +156,6 @@ cask "font-symbols-only-nerd-font"
 cask "gcloud-cli"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
-# CLI tool for searching and downloading iOS app packages from the App Store
-cask "majd/repo/ipatool"
 # Discover, download, and run local LLMs
 cask "lm-studio"
 # Markdown editor
@@ -186,8 +182,6 @@ cask "thaw"
 cask "abue-ammar/tinycast/tinycast", trusted: true
 # Open-source code editor
 cask "visual-studio-code"
-# Display macOS power usage (wattage) in the menu bar
-cask "beutton/brew/wattsec"
 # Multiplayer code editor
 cask "zed"
 # Gecko based web browser
