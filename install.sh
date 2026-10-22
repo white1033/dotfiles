@@ -37,16 +37,35 @@ run_step() {
     "$@" >"$log" 2>&1 &
   fi
   pid=$!
+  local size=0 paused=0 cur
   while kill -0 "$pid" 2>/dev/null; do
     if [ -t 1 ]; then
-      last="$(tail -n 1 "$log" 2>/dev/null | tr -d '\r' | strip_noise | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')"
-      [ -n "$last" ] || last="$label"
-      if [ "$PROGRESS_TOTAL" -gt 0 ]; then
-        done_n="$(strip_noise <"$log" | tr -d '\r' | sed -nE 's/^(Installing|Using) //p' | LC_ALL=C sort -u \
-          | comm -12 - "$PROGRESS_NAMES" | wc -l | tr -d ' ')"
-        counter="[$done_n/$PROGRESS_TOTAL] "
+      cur="$(wc -c <"$log" 2>/dev/null | tr -d ' ')"
+      if [ "${cur:-0}" -ne "$size" ]; then
+        size="${cur:-0}"
+        paused=0
       fi
-      printf '\r  %s %s%-44.44s %5ds' "${frames:i++%4:1}" "$counter" "$last" $((SECONDS - START))
+      if [ "$paused" -eq 0 ]; then
+        last="$(tail -n 1 "$log" 2>/dev/null | tr -d '\r' | strip_noise | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')"
+        case "$last" in
+          *[Pp]assword:* | *"[sudo]"* | *"Press RETURN"*)
+            # A cask is asking for a password: leave the prompt on its own line
+            # and stop redrawing until the command produces more output, so the
+            # spinner does not overwrite what the user is typing into.
+            printf '\r%s\n' "$last"
+            paused=1
+            ;;
+        esac
+      fi
+      if [ "$paused" -eq 0 ]; then
+        [ -n "$last" ] || last="$label"
+        if [ "$PROGRESS_TOTAL" -gt 0 ]; then
+          done_n="$(strip_noise <"$log" | tr -d '\r' | sed -nE 's/^(Installing|Using) //p' | LC_ALL=C sort -u \
+            | comm -12 - "$PROGRESS_NAMES" | wc -l | tr -d ' ')"
+          counter="[$done_n/$PROGRESS_TOTAL] "
+        fi
+        printf '\r  %s %s%-44.44s %5ds' "${frames:i++%4:1}" "$counter" "$last" $((SECONDS - START))
+      fi
     fi
     sleep 1
   done
