@@ -87,13 +87,18 @@ for dir in */; do
   packages+=("$dir")
 done
 
-# Dry-run first so existing files never leave a half-stowed state
-if ! stow -n -t "$HOME" "${packages[@]}"; then
+# Dry-run first so existing files never leave a half-stowed state. GNU stow
+# prints a "simulation mode" warning on every dry run; swallow that one line
+# and only surface real conflicts.
+echo "  checking for conflicts (dry run)..."
+if ! dry_run="$(stow -n -t "$HOME" "${packages[@]}" 2>&1)"; then
+  printf '%s\n' "$dry_run" | sed '/in simulation mode/d'
   echo
   echo "Stow found conflicting files in \$HOME (see above)."
   echo "Back them up or remove them, then re-run ./install.sh"
   exit 1
 fi
+echo "  no conflicts"
 
 i=0
 for pkg in "${packages[@]}"; do
