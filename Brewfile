@@ -55,18 +55,12 @@ brew "jq"
 brew "just"
 # Kubernetes CLI To Manage Your Clusters In Style!
 brew "k9s"
-# Cross-platform software keyboard remapper for Linux, macOS and Windows
-brew "kanata"
 # Protocol buffers (Google's data interchange format)
 brew "protobuf"
-# Neural Network Go engine with no human-provided knowledge
-brew "katago"
 # Kubernetes command-line interface
 brew "kubernetes-cli"
 # Simple terminal UI for git commands
 brew "lazygit"
-# Open source neural network based chess engine
-brew "lc0"
 # Postgres C API library
 brew "libpq"
 # Apache Kafka C/C++ library
@@ -95,14 +89,10 @@ brew "ripgrep"
 brew "safe-rm"
 # Intuitive find & replace CLI
 brew "sd"
-# 7-Zip is a file archiver with a high compression ratio
-brew "sevenzip"
 # Static analysis and lint tool, for (ba)sh scripts
 brew "shellcheck"
 # Cross-shell prompt for astronauts
 brew "starship"
-# Strong open-source chess engine
-brew "stockfish"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
 # Very fast implementation of tldr in Rust
@@ -113,8 +103,6 @@ brew "tmux"
 brew "trivy"
 # Markup-based typesetting system
 brew "typst"
-# Command-line unarchiving tools supporting multiple formats
-brew "unar"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
 # Internet file retriever
@@ -135,16 +123,10 @@ brew "zoxide"
 brew "acsandmann/tap/rift", trusted: true
 # Command-line interface for the Databricks platform
 brew "databricks/tap/databricks"
-# Application uninstaller
-cask "appcleaner"
-# Scriptable scratchpad for developers
-cask "boop"
 # Open source IDE for exploring and testing APIs
 cask "bruno"
 # Universal database tool and SQL client
 cask "dbeaver-community"
-# Online diagram software
-cask "drawio"
 cask "font-monaspace-nf"
 cask "font-sf-mono"
 cask "font-symbols-only-nerd-font"
@@ -152,18 +134,8 @@ cask "font-symbols-only-nerd-font"
 cask "gcloud-cli"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
-# Discover, download, and run local LLMs
-cask "lm-studio"
-# Markdown editor
-cask "miaoyan"
 # Replacement for Docker Desktop
 cask "orbstack"
-# Apple Notes extension
-cask "pronotes"
-# Simple menu bar app to view and interact with reminders
-cask "reminders-menubar"
-# Go board and SGF editor
-cask "sabaki"
 # Tool that provides consistent, highly configurable symbols for apps
 cask "sf-symbols"
 # Team communication and collaboration software
