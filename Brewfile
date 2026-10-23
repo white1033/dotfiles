@@ -17,8 +17,6 @@ brew "btop"
 brew "cmake"
 # Documentation for CMake
 brew "cmake-docs"
-# GNU File, Shell, and Text utilities
-brew "coreutils"
 # More intuitive version of du in rust
 brew "dust"
 # Modern, maintained replacement for ls
