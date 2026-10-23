@@ -37,8 +37,6 @@ brew "gh"
 brew "git-delta"
 # Git extension for versioning large files
 brew "git-lfs"
-# Blazing fast terminal-ui for git written in rust
-brew "gitui"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
 # Task is a task runner/build tool that aims to be simpler and easier to use
